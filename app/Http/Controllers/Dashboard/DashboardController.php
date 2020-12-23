@@ -22,8 +22,8 @@ class DashboardController extends Controller
         return view('main.pages.dashboard');
     }
 
-    public function body()
+    public function service()
     {
-        return view('main.pages.dashboard');
+        return view('main.pages.service');
     }
 }
