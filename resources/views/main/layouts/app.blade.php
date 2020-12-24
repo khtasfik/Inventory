@@ -32,8 +32,7 @@
 
 <!-- End Footer -->
 
-        </div>
-		</div>
+        
 		
 <!-- Script Components -->
 

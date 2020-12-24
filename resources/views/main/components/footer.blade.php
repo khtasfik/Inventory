@@ -8,4 +8,6 @@
 					</div>
 				</div>
 			</footer>
+			</div>
+		</div>
 <!-- FOOTER END --> 
