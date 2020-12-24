@@ -1,46 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    
-<!-- Mirrored from laravel.spruko.com/volgh/leftmenu_icon_light/index by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 19 Dec 2020 16:19:56 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-      @include('main.components.styles')
-        
-    </head>
+    @include('main.components.styles')
+</head>
 
-    <body class="app sidebar-mini">
-		
-
-				
-@include('main.components.left-bar'); 
-
-@include('main.components.header'); 
-
-<!-- End Header -->
-
-<!-- Body Part Start -->
-
-						@yield('content');
-						
-	<!-- Body Part End -->
-
-					
-
-<!-- Footer Components -->
-  
-@include('main.components.footer');  
-
-<!-- End Footer -->
-
+<body class="app sidebar-mini">
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="assets/images/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+            @include('main.components.left-bar')
+            @yield('content')
         </div>
-		</div>
-		
-<!-- Script Components -->
+        @include('main.components.footer')
+    </div>
+    </div>
 
-{{-- scripts --}}
     @include('main.components.scripts')
-
-<!-- End Script -->
-
-            </body>
+</body>
 </html>
