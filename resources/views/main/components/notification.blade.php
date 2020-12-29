@@ -65,7 +65,7 @@
             <div class="message-menu">
                 <a class="dropdown-item d-flex pb-3" href="#">
                     <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                        data-image-src="assets/images/users/1.jpg"></span>
+                        data-image-src="{{ asset('assets/images/users/1.jpg') }}"></span>
                     <div>
                         <strong>Madeleine</strong> Hey! there I' am available....
                         <div class="small text-muted">
@@ -75,7 +75,7 @@
                 </a>
                 <a class="dropdown-item d-flex pb-3" href="#">
                     <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                        data-image-src="assets/images/users/12.jpg"></span>
+                        data-image-src="{{ asset('assets/images/users/12.jpg') }}"></span>
                     <div>
                         <strong>Anthony</strong> New product Launching...
                         <div class="small text-muted">
@@ -85,7 +85,7 @@
                 </a>
                 <a class="dropdown-item d-flex pb-3" href="#">
                     <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                        data-image-src="assets/images/users/4.jpg"></span>
+                        data-image-src="{{ asset('assets/images/users/4.jpg') }}"></span>
                     <div>
                         <strong>Olivia</strong> New Schedule Realease......
                         <div class="small text-muted">
@@ -95,7 +95,7 @@
                 </a>
                 <a class="dropdown-item d-flex pb-3" href="#">
                     <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                        data-image-src="assets/images/users/15.jpg"></span>
+                        data-image-src="{{ asset('assets/images/users/15.jpg') }}"></span>
                     <div>
                         <strong>Sanderson</strong> New Schedule Realease......
                         <div class="small text-muted">
@@ -111,7 +111,7 @@
     <div class="dropdown profile-1">
         <a href="#" data-toggle="dropdown" class="nav-link pr-2 leading-none d-flex">
             <span>
-                <img src="assets/images/users/10.jpg" alt="profile-user"
+                <img src="{{ asset('assets/images/users/10.jpg') }}" alt="profile-user"
                     class="avatar  profile-user brround cover-image">
             </span>
         </a>

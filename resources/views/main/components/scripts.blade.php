@@ -47,10 +47,13 @@
 <!-- SWITCHER JS -->
 {{-- <script src="{{ asset('assets/switcher/js/switcher.js') }}"></script> --}}
 
+   
+
+@stack('js')
 <!--CUSTOM JS -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-@stack('js')
+
 
 
 

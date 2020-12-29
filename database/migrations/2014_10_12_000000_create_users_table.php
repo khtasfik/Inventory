@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->foreignId('user_type');
             $table->string('contact');
+            $table->string('file')->nullable();
+            $table->string('gender');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -4,7 +4,28 @@
 	// Toolbar extra buttons
 	var btnFinish = $('<button></button>').text('Finish')
 		.addClass('btn btn-success')
-		.on('click', function(){ alert('Finish Clicked'); });
+		.on('click', function () {
+			alert($("form").serialize());
+			           $.ajaxSetup({
+                           headers: {
+                               "X-CSRF-TOKEN": $(
+                                   'meta[name="csrf-token"]'
+                               ).attr("content")
+                           }
+                       });
+			$.ajax({
+                method: "POST",
+                url: "/dashboard/users/submit",
+                data: $("form").serialize(),
+                success: function(response) {
+                    // alert(response);
+                    data = JSON.parse(response);
+                    // $("#interest").val(data["loan_percentage"]);
+                    // console.log(data);
+                    // alert(data['loan_percentage']);
+                }
+            });
+		});
 	var btnCancel = $('<button></button>').text('Cancel')
 		.addClass('btn btn-danger')
 		.on('click', function(){ $('#smartwizard').smartWizard("reset"); });

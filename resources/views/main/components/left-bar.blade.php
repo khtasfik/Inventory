@@ -3,10 +3,10 @@
             <aside class="app-sidebar">
                 <div class="side-header">
                     <a class="header-brand1" href="index.html">
-                        <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-                        <img src="assets/images/brand/logo-1.png" class="header-brand-img toggle-logo" alt="logo">
-                        <img src="assets/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo">
-                        <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo">
+                        <img src="{{ asset('assets/images/brand/logo.png') }}" class="header-brand-img desktop-logo" alt="logo">
+                        <img src="{{ asset('assets/images/brand/logo-1.png') }}" class="header-brand-img toggle-logo" alt="logo">
+                        <img src="{{ asset('assets/images/brand/logo-2.png') }}" class="header-brand-img light-logo" alt="logo">
+                        <img src="{{ asset('assets/images/brand/logo-3.png') }}" class="header-brand-img light-logo1" alt="logo">
                     </a><!-- LOGO -->
                     <a aria-label="Hide Sidebar" class="app-sidebar__toggle ml-auto" data-toggle="sidebar" href="#"></a>
                     <!-- sidebar-toggle-->
@@ -14,7 +14,7 @@
                 <div class="app-sidebar__user">
                     <div class="dropdown user-pro-body text-center">
                         <div class="user-pic">
-                            <img src="assets/images/users/10.jpg" alt="user-img" class="avatar-xl rounded-circle">
+                            <img src="{{ asset('assets/images/users/10.jpg') }}" alt="user-img" class="avatar-xl rounded-circle">
                         </div>
                         <div class="user-info">
                             <h6 class=" mb-0 text-dark">Elizabeth Dyer</h6>
@@ -63,15 +63,11 @@
                         </ul>
                     </li>
                     <li>
-                        <h3>Widgets & Maps</h3>
+                        <h3>Users</h3>
                     </li>
                     <li>
-                        <a class="side-menu__item" href="widgets.html"><i class="side-menu__icon ti-package"></i><span
-                                class="side-menu__label">Widgets</span></a>
-                    </li>
-                    <li>
-                        <a class="side-menu__item" href="maps.html"><i class="side-menu__icon ti-map-alt"></i><span
-                                class="side-menu__label">Maps</span></a>
+                        <a class="side-menu__item" href="{{ route('users.index') }}"><i class="side-menu__icon ti-package"></i><span
+                                class="side-menu__label">User Lists</span></a>
                     </li>
                     <li>
                         <h3>Elements</h3>
@@ -271,8 +267,8 @@
                         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-toggle="sidebar" href="#"></a>
                         <!-- sidebar-toggle-->
                         <a class="header-brand" href="index.html">
-                            <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-                            <img src="assets/images/brand/logo-3.png" class="header-brand-img desktop-logo mobile-light"
+                            <img src="{{ asset('assets/images/brand/logo.png') }}" class="header-brand-img desktop-logo" alt="logo">
+                            <img src="{{ asset('assets/images/brand/logo-3.png') }}" class="header-brand-img desktop-logo mobile-light"
                                 alt="logo">
                         </a>
                         <div class="d-flex order-lg-2 ml-auto header-right-icons">
@@ -285,7 +281,7 @@
                             <div class="dropdown profile-1">
                                 <a href="#" data-toggle="dropdown" class="nav-link pr-2 leading-none d-flex">
                                     <span>
-                                        <img src="assets/images/users/10.jpg" alt="profile-user"
+                                        <img src="{{ asset('assets/images/users/10.jpg') }}" alt="profile-user"
                                             class="avatar  profile-user brround cover-image">
                                     </span>
                                 </a>
@@ -389,7 +385,7 @@
                                 <div class="message-menu">
                                     <a class="dropdown-item d-flex pb-3" href="#">
                                         <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                                            data-image-src="assets/images/users/1.jpg"></span>
+                                            data-image-src="{{ asset('assets/images/users/1.jpg') }}"></span>
                                         <div>
                                             <strong>Madeleine</strong> Hey! there I' am available....
                                             <div class="small text-muted">
@@ -399,7 +395,7 @@
                                     </a>
                                     <a class="dropdown-item d-flex pb-3" href="#">
                                         <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                                            data-image-src="assets/images/users/12.jpg"></span>
+                                            data-image-src="{{ asset('assets/images/users/12.jpg') }}"></span>
                                         <div>
                                             <strong>Anthony</strong> New product Launching...
                                             <div class="small text-muted">
@@ -409,7 +405,7 @@
                                     </a>
                                     <a class="dropdown-item d-flex pb-3" href="#">
                                         <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                                            data-image-src="assets/images/users/4.jpg"></span>
+                                            data-image-src="{{ asset('assets/images/users/4.jpg') }}"></span>
                                         <div>
                                             <strong>Olivia</strong> New Schedule Realease......
                                             <div class="small text-muted">
@@ -419,7 +415,7 @@
                                     </a>
                                     <a class="dropdown-item d-flex pb-3" href="#">
                                         <span class="avatar avatar-md brround mr-3 align-self-center cover-image"
-                                            data-image-src="assets/images/users/15.jpg"></span>
+                                            data-image-src="{{ asset('assets/images/users/15.jpg') }}"></span>
                                         <div>
                                             <strong>Sanderson</strong> New Schedule Realease......
                                             <div class="small text-muted">
