@@ -21,6 +21,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('tasfik7778'),
             'user_type' => 1,
             'contact' => "01629167778",
+            'file' => ".jpg",
+            'gender' => "male",
         ]);
     }
 }

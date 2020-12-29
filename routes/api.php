@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\Users\UserSubmitController;
+use App\Http\Controllers\Api\UserApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'], 'namespace' => 'Dashboard'], function () {
+    
+// });
+
+// Route::post('user/submit', [UserSubmitController::class, 'store']);
+// Route::post('submit', [UserApiController::class, 'index']);

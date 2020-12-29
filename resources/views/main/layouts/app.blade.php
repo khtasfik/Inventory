@@ -8,7 +8,7 @@
 <body class="app sidebar-mini">
     <!-- GLOBAL-LOADER -->
     <div id="global-loader">
-        <img src="assets/images/loader.svg" class="loader-img" alt="Loader">
+        <img src="{{ asset('assets/images/loader.svg') }}" class="loader-img" alt="Loader">
     </div>
     <!-- /GLOBAL-LOADER -->
     <!-- PAGE -->
