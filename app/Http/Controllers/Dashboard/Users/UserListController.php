@@ -74,19 +74,8 @@ class UserListController extends Controller
             // $users->update(['file' => $file]);
             $users->file = $file;
         }
-
-        // $image = $request->file->store('file', 'public');
-
-        // $imageName = time().'.'.$request->file->extension();  
-     
-        // $request->file->move(public_path('file'), $imageName);
-
         // dd($request);
         $users->save();
-        // $image->save();
-        // return $users;
-        // $imageName->save();
-        // return back()->with('success', 'User has been added successfully');
         return redirect('dashboard/users')->with('success', 'User has been added successfully');
     }
 
@@ -109,6 +98,10 @@ class UserListController extends Controller
      */
     public function edit(User $users)
     {
+         $users = DB::table('users')
+                ->select('users.*', 'user_type.name', 'user_type.name as uname', 'users.name as aname')
+                ->join('user_type', 'users.user_type', '=', 'user_type.id')
+                ->first();
         return view('main.pages.users.user-edit', compact('users'));
     }
 
@@ -123,19 +116,31 @@ class UserListController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'password' => 'required',
             'email' => 'required',
             'contact' => 'required',
             'gender' => 'required',
+            'user_type' => 'required',
+            'file' => 'image|max:2048',
         ]);
 
 
         $users = User::find($id);
-        $users->name = $request->get('name');
-        $users->email = $request->get('email');
-        $users->contact = $request->get('contact');
-        $users->gender = $request->get('gender');
-
-        $users->update();
+        if($request->hasFile('file')){
+            $request->validate([
+              'file' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            ]);
+            $path = $request->file('file')->store('public/file');
+            $users->file = $path;
+        }
+        
+        $users->name = $request->name;
+        $users->password = Hash::make($request['password']);
+        $users->email = $request->email;
+        $users->contact = $request->contact;
+        $users->user_type = $request->type;
+        $users->gender = $request->gender;
+        $users->save();
 
         return redirect('dashboard/users')->with('success', 'User Information Updated Successfully');
     }
@@ -146,8 +151,9 @@ class UserListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $users)
+    public function destroy($id)
     {
+        $users = User::findOrFail($id);
         $users->delete();
         return redirect('dashboard/users')->with('success', 'User deleted successfully');
     }

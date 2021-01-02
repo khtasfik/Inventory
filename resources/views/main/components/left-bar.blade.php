@@ -70,6 +70,13 @@
                                 class="side-menu__label">User Lists</span></a>
                     </li>
                     <li>
+                        <h3>Suppliers</h3>
+                    </li>
+                    <li>
+                        <a class="side-menu__item" href="{{ route('supplier.index') }}"><i class="side-menu__icon ti-package"></i><span
+                                class="side-menu__label">Suppliers</span></a>
+                    </li>
+                    <li>
                         <h3>Elements</h3>
                     </li>
                     <li class="slide">
