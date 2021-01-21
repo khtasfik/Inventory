@@ -29,4 +29,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'], 'namespace' => 
 
     // supplier controller
     Route::resource('supplier', 'Suppliers\SuppliersController');
+
+    // purchase controller
+    Route::resource('purchase', 'Products\Purchase\PurchaseController');
 });
