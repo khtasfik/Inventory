@@ -1,0 +1,69 @@
+name: Deploy Laravel to VPS
+
+on:
+  push:
+    branches: [ "main" ]   # change to your default branch if it's not 'main'
+  workflow_dispatch:        # lets you run it manually from the Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Rsync code to server (skip env/vendor)
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -az --delete --exclude=".git" --exclude=".github" --exclude="node_modules" --exclude="vendor" --exclude=".env"
+          path: ./
+          remote_path: /var/www/html/socialcraft/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_port: ${{ secrets.SSH_PORT }}
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: Post-deploy: composer, caches, migrate, reload
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/html/socialcraft
+
+            # Install Composer if missing
+            if ! command -v composer >/dev/null 2>&1; then
+              php -r "copy('https://getcomposer.org/installer','composer-setup.php');"
+              php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+              php -r "unlink('composer-setup.php');"
+            fi
+
+            # Install PHP deps for production
+            composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+            # Generate app key on first deploy if missing
+            grep -q "^APP_KEY=" .env || php artisan key:generate --force || true
+
+            # Optimize Laravel
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan storage:link || true
+
+            # DB migrations (optional; keep if you want auto)
+            php artisan migrate --force || true
+
+            # Runtime perms
+            chown -R www-data:www-data storage bootstrap/cache || true
+            find storage -type d -exec chmod 775 {} \;
+            find storage -type f -exec chmod 664 {} \;
+            chmod -R 775 bootstrap/cache
+
+            # Reload services (whichever you use)
+            systemctl reload apache2 || true
+            systemctl reload php8.3-fpm || systemctl reload php8.2-fpm || true
+            systemctl reload nginx || true
