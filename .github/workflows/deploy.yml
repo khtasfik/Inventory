@@ -24,7 +24,7 @@ jobs:
           remote_port: ${{ secrets.SSH_PORT }}
           remote_key: ${{ secrets.SSH_KEY }}
 
-      - name: Post-deploy: composer, caches, migrate, reload
+      - name: "Post-deploy: composer, caches, migrate, reload"
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SSH_HOST }}
