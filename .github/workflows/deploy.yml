@@ -2,8 +2,8 @@ name: Deploy Laravel to VPS
 
 on:
   push:
-    branches: [ "main" ]   # change to your default branch if it's not 'main'
-  workflow_dispatch:        # lets you run it manually from the Actions tab
+    branches: [ "main" ]   # change if your branch is different
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -42,28 +42,28 @@ jobs:
               php -r "unlink('composer-setup.php');"
             fi
 
-            # Install PHP deps for production
+            # Install PHP dependencies
             composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-            # Generate app key on first deploy if missing
+            # Generate APP_KEY if missing
             grep -q "^APP_KEY=" .env || php artisan key:generate --force || true
 
-            # Optimize Laravel
+            # Optimize caches
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
             php artisan storage:link || true
 
-            # DB migrations (optional; keep if you want auto)
+            # Run DB migrations (optional)
             php artisan migrate --force || true
 
-            # Runtime perms
+            # Permissions
             chown -R www-data:www-data storage bootstrap/cache || true
             find storage -type d -exec chmod 775 {} \;
             find storage -type f -exec chmod 664 {} \;
             chmod -R 775 bootstrap/cache
 
-            # Reload services (whichever you use)
+            # Reload web services
             systemctl reload apache2 || true
             systemctl reload php8.3-fpm || systemctl reload php8.2-fpm || true
             systemctl reload nginx || true
