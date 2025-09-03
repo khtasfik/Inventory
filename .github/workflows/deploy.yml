@@ -2,7 +2,7 @@ name: Deploy Laravel to VPS
 
 on:
   push:
-    branches: ["main"]          # <-- change if your default branch isn't main
+    branches: ["main"]          # change if your default branch isn't main
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,6 @@ jobs:
       - name: "Checkout code"
         uses: actions/checkout@v4
 
-      # Quick sanity check that the SSH key in secrets works
       - name: "Test SSH connectivity"
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -42,39 +41,50 @@ jobs:
           remote_key: ${{ secrets.SSH_KEY }}
 
       - name: "Post-deploy: composer, caches, migrate, reload"
-  uses: appleboy/ssh-action@v1.1.0
-  with:
-    host: ${{ secrets.SSH_HOST }}
-    username: ${{ secrets.SSH_USER }}
-    port: ${{ secrets.SSH_PORT }}
-    key: ${{ secrets.SSH_KEY }}
-    script: |
-      set -e
-      PHP=/usr/bin/php8.1
-      cd /var/www/html/socialcraft
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            PHP=/usr/bin/php8.1
+            cd /var/www/html/socialcraft
 
-      if ! command -v composer >/dev/null 2>&1; then
-        $PHP -r "copy('https://getcomposer.org/installer','composer-setup.php');"
-        $PHP composer-setup.php --install-dir=/usr/local/bin --filename=composer
-        rm -f composer-setup.php
-      fi
+            # Install Composer if missing
+            if ! command -v composer >/dev/null 2>&1; then
+              $PHP -r "copy('https://getcomposer.org/installer','composer-setup.php');"
+              $PHP composer-setup.php --install-dir=/usr/local/bin --filename=composer
+              rm -f composer-setup.php
+            fi
 
-      export COMPOSER_ALLOW_SUPERUSER=1
-      export COMPOSER_NO_INTERACTION=1
+            # Composer env for root/non-interactive
+            export COMPOSER_ALLOW_SUPERUSER=1
+            export COMPOSER_NO_INTERACTION=1
 
-      composer install --no-dev --prefer-dist --no-progress --no-interaction
-      grep -q "^APP_KEY=" .env || $PHP artisan key:generate --force || true
-      $PHP artisan config:cache
-      $PHP artisan route:cache
-      $PHP artisan view:cache
-      $PHP artisan storage:link || true
-      $PHP artisan migrate --force || true
+            # Install PHP deps (prod)
+            composer install --no-dev --prefer-dist --no-progress --no-interaction
 
-      chown -R www-data:www-data storage bootstrap/cache || true
-      find storage -type d -exec chmod 775 {} \;
-      find storage -type f -exec chmod 664 {} \;
-      chmod -R 775 bootstrap/cache
+            # First-time APP_KEY if missing
+            grep -q "^APP_KEY=" .env || $PHP artisan key:generate --force || true
 
-      systemctl reload apache2 || true
-      systemctl reload php8.1-fpm || true
-      systemctl reload nginx || true
+            # Optimize & link
+            $PHP artisan config:cache
+            $PHP artisan route:cache
+            $PHP artisan view:cache
+            $PHP artisan storage:link || true
+
+            # Run migrations (optional)
+            $PHP artisan migrate --force || true
+
+            # Fix runtime permissions
+            chown -R www-data:www-data storage bootstrap/cache || true
+            find storage -type d -exec chmod 775 {} \;
+            find storage -type f -exec chmod 664 {} \;
+            chmod -R 775 bootstrap/cache
+
+            # Reload services
+            systemctl reload apache2 || true
+            systemctl reload php8.1-fpm || true
+            systemctl reload nginx || true
